@@ -1,0 +1,50 @@
+[project]
+name = "project-fin-module"
+version = "0.1.0"
+description = "Agentic RAG system on Moroccan tourism corpus using LangGraph + Groq (CRAG-flavored)"
+readme = "README.md"
+requires-python = ">=3.11,<3.14"
+dependencies = [
+    # Core LangGraph + LangChain
+    "langgraph>=0.2.60",
+    "langchain>=0.3.10",
+    "langchain-core>=0.3.25",
+    "langchain-community>=0.3.10",
+    # LLM provider
+    "langchain-groq>=0.2.2",
+    # Embeddings (HuggingFace local — Groq has no embeddings endpoint)
+    "langchain-huggingface>=0.1.2",
+    "sentence-transformers>=3.3.0",
+    # Vector store
+    "langchain-chroma>=0.1.4",
+    "chromadb>=0.5.20",
+    # Document loaders
+    "pypdf>=5.1.0",
+    "unstructured>=0.16.0",
+    # Web search tool (modern package — NOT deprecated langchain_community)
+    "langchain-tavily>=0.1.0",
+    # Structured outputs
+    "pydantic>=2.9.0",
+    # Env loading
+    "python-dotenv>=1.0.1",
+    # Optional but useful for LangGraph Studio
+    "langgraph-cli[inmem]>=0.1.65",
+    # Eval helpers (optional, for evaluate.py)
+    "pandas>=2.2.0",
+    "tabulate>=0.9.0",
+    # Tracing (LangSmith — already have key in .env)
+    "langsmith>=0.1.140",
+    "langchain-ollama>=1.1.0",
+    "ipykernel>=7.3.0",
+    "matplotlib>=3.11.0",
+    "ipywidgets>=8.1.8",
+    "reportlab>=5.0.0",
+    "pandas-stubs~=3.0.3",
+]
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[tool.hatch.build.targets.wheel]
+packages = ["src"]

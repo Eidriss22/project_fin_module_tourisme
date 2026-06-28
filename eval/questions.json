@@ -1,0 +1,142 @@
+[
+  {
+    "id": "S01",
+    "question": "Quel est le surnom de la ville de Marrakech ?",
+    "type": "simple",
+    "reference": "Marrakech est surnommée 'la Ville Rouge' en raison de la couleur ocre de ses remparts en pisé.",
+    "expected_topics": ["Marrakech", "Ville Rouge", "remparts", "ocre"]
+  },
+  {
+    "id": "S02",
+    "question": "En quelle année l'université Al Quaraouiyine de Fès a-t-elle été fondée et par qui ?",
+    "type": "simple",
+    "reference": "L'université Al Quaraouiyine a été fondée en 859 par Fatima al-Fihriya, une femme tunisienne. C'est la plus ancienne université du monde encore en activité.",
+    "expected_topics": ["Al Quaraouiyine", "859", "Fatima al-Fihriya", "Fès"]
+  },
+  {
+    "id": "S03",
+    "question": "Quelle est la hauteur du minaret de la mosquée Hassan II à Casablanca ?",
+    "type": "simple",
+    "reference": "Le minaret de la mosquée Hassan II mesure 210 mètres, ce qui en fait le plus haut minaret du monde.",
+    "expected_topics": ["mosquée Hassan II", "210 mètres", "Casablanca", "minaret"]
+  },
+  {
+    "id": "S04",
+    "question": "Combien de sites marocains sont inscrits au patrimoine mondial de l'UNESCO ?",
+    "type": "simple",
+    "reference": "Le Maroc compte 9 sites inscrits au patrimoine mondial de l'UNESCO : médinas de Fès, Marrakech, Meknès, Tétouan, Essaouira, ksar d'Aït Ben Haddou, Volubilis, Mazagan (El Jadida), et Rabat.",
+    "expected_topics": ["UNESCO", "9 sites", "patrimoine mondial"]
+  },
+  {
+    "id": "S05",
+    "question": "Quel est le point culminant du Maroc et quelle est son altitude ?",
+    "type": "simple",
+    "reference": "Le Jbel Toubkal, qui culmine à 4 167 mètres, est le point culminant du Maroc et de toute l'Afrique du Nord.",
+    "expected_topics": ["Jbel Toubkal", "4167", "Atlas", "Afrique du Nord"]
+  },
+  {
+    "id": "S06",
+    "question": "Qui a créé le jardin Majorelle à Marrakech et en quelle décennie ?",
+    "type": "simple",
+    "reference": "Le jardin Majorelle a été créé par le peintre français Jacques Majorelle dans les années 1920, puis restauré par Yves Saint Laurent et Pierre Bergé en 1980.",
+    "expected_topics": ["jardin Majorelle", "Jacques Majorelle", "années 1920", "Yves Saint Laurent"]
+  },
+  {
+    "id": "S07",
+    "question": "Quel festival musical se tient à Essaouira chaque mois de juin ?",
+    "type": "simple",
+    "reference": "Le Festival Gnaoua et Musiques du Monde se tient à Essaouira chaque mois de juin depuis 1998 et attire environ 450 000 spectateurs.",
+    "expected_topics": ["Festival Gnaoua", "Essaouira", "juin", "musiques du monde"]
+  },
+  {
+    "id": "S08",
+    "question": "Quelle est la monnaie officielle du Maroc ?",
+    "type": "simple",
+    "reference": "La monnaie officielle du Maroc est le dirham marocain (DH ou MAD). Le taux de change est d'environ 1 € pour 10,5-11 DH.",
+    "expected_topics": ["dirham", "DH", "MAD", "monnaie"]
+  },
+  {
+    "id": "S09",
+    "question": "Combien de temps les citoyens de l'Union Européenne peuvent-ils rester au Maroc sans visa ?",
+    "type": "simple",
+    "reference": "Les citoyens de l'Union Européenne peuvent rester au Maroc jusqu'à 90 jours sans visa, à condition que leur passeport soit valide au moins 6 mois après la date d'entrée.",
+    "expected_topics": ["visa", "90 jours", "Union Européenne", "passeport"]
+  },
+  {
+    "id": "S10",
+    "question": "Quelle est la couleur dominante des maisons de Chefchaouen et pourquoi ?",
+    "type": "simple",
+    "reference": "Les maisons de Chefchaouen sont peintes en différentes nuances de bleu. Plusieurs hypothèses cohabitent : tradition juive (les Juifs séfarades arrivés au XVe siècle, et surtout les réfugiés des années 1930, auraient peint les murs en bleu en référence au tekhelet), insecticide naturel contre les moustiques, régulation thermique, ou attrait touristique entretenu.",
+    "expected_topics": ["Chefchaouen", "bleu", "tekhelet", "juifs séfarades", "moustiques"]
+  },
+  {
+    "id": "C01",
+    "question": "Compare l'expérience touristique à Fès et à Marrakech pour un visiteur intéressé par l'artisanat traditionnel et le patrimoine UNESCO. Quelles différences notables entre les deux villes ?",
+    "type": "complex",
+    "reference": "Les deux médinas sont inscrites à l'UNESCO (Fès en 1981, Marrakech en 1985) et sont d'anciennes capitales impériales. Fès est considérée comme la capitale spirituelle et artisanale (cuir des tanneries Chouara, poterie bleue, zellige, dinanderie) avec une médina labyrinthique de 9 500 ruelles et une atmosphère plus authentique et conservatrice. Marrakech est plus touristique, avec la place Jemaa el-Fna et des souks plus grands mais aussi plus commerciaux ; ses spécialités artisanales incluent la maroquinerie (matière première venant de Fès), les lanternes en métal, les tapis Beni Ourain et les babouches. Fès convient mieux pour l'authenticité et l'apprentissage des techniques traditionnelles, Marrakech pour l'ambiance festive et le shopping varié.",
+    "expected_topics": ["Fès", "Marrakech", "UNESCO", "artisanat", "tanneries", "Jemaa el-Fna", "médina", "zellige"]
+  },
+  {
+    "id": "C02",
+    "question": "Quelles sont les meilleures périodes pour visiter respectivement le Sahara (Merzouga), le Haut Atlas pour le trekking, et la côte atlantique ?",
+    "type": "complex",
+    "reference": "Sahara/Merzouga : périodes idéales d'octobre à avril, températures de 18-22 °C le jour en hiver. Éviter juillet-août (40-45 °C, déconseillé). Haut Atlas pour trekking du Toubkal : juin à octobre, fin juin à fin septembre pour les débutants (sans neige). Hiver impraticable sans matériel d'alpinisme. Côte atlantique (Essaouira, Agadir, Casablanca) : agréable toute l'année, étés modérés (22-28 °C) grâce à la brise atlantique, hivers doux (10-18 °C).",
+    "expected_topics": ["Sahara", "Merzouga", "Haut Atlas", "Toubkal", "côte atlantique", "saisons", "climat"]
+  },
+  {
+    "id": "C03",
+    "question": "Quelles différences notables entre les médinas de Fès, Marrakech et Essaouira en termes d'organisation urbaine et de contexte historique ?",
+    "type": "complex",
+    "reference": "Fès (fondée 789) a la médina la plus ancienne et la plus labyrinthique du monde arabe (9 500 ruelles), inscrite UNESCO en 1981. Marrakech (fondée 1062) a une médina plus accessible aux ruelles encore tortueuses, célèbre pour la place Jemaa el-Fna, inscrite UNESCO en 1985. Essaouira (fondée 1764) a une organisation rectiligne exceptionnelle pour une médina marocaine, conçue par Théodore Cornut (élève de Vauban) selon les principes de l'architecture militaire européenne, avec remparts et skalas portugais-style ; inscrite UNESCO en 2001. Fès et Marrakech sont impériales, Essaouira est portuaire fortifiée.",
+    "expected_topics": ["médinas", "Fès", "Marrakech", "Essaouira", "Théodore Cornut", "Vauban", "organisation urbaine"]
+  },
+  {
+    "id": "C04",
+    "question": "Proposez un itinéraire de 10 jours pour découvrir le Maroc en partant du nord et en allant jusqu'au désert.",
+    "type": "complex",
+    "reference": "Itinéraire suggéré : Jours 1-2 Tanger (Kasbah, Cap Spartel, Petit Socco) ; Jour 3 Chefchaouen (ville bleue, randonnée Akchour) ; Jours 4-5 Fès (médina UNESCO, tanneries, medersa Bou Inania) ; Jour 6 Meknès et Volubilis (sites UNESCO) ; Jours 7-8 Marrakech (Jemaa el-Fna, Bahia, Majorelle) ; Jour 9 Aït Ben Haddou + nuit à Ouarzazate ; Jour 10 Gorges du Dadès ou prolongement vers Merzouga (bivouac désert). Transports : LGV Al Boraq Tanger-Casa-Rabat-Fès, bus CTM/Supratours pour Chefchaouen, voiture/4x4 pour le sud.",
+    "expected_topics": ["itinéraire", "Tanger", "Chefchaouen", "Fès", "Marrakech", "désert", "Aït Ben Haddou", "Merzouga"]
+  },
+  {
+    "id": "C05",
+    "question": "Quels types d'artisanat sont caractéristiques de chaque grande ville marocaine (Fès, Marrakech, Essaouira, Tiznit, Safi) et où peut-on les acheter ?",
+    "type": "complex",
+    "reference": "Fès : cuir (tanneries Chouara), poterie bleue (quartier Aïn Nokbi), zellige, dinanderie. Marrakech : maroquinerie travaillée, lanternes en métal ajouré, tapis Beni Ourain et Boucherouite, babouches (souk Smata). Essaouira : marqueterie de bois de thuya, bijoux berbères en argent, huiles d'argan via coopératives féminines. Tiznit : capitale de la bijouterie en argent berbère. Safi : poterie verte émaillée. Achats responsables : ensembles artisanaux officiels (prix fixes), coopératives féminines, Maison de l'Artisan.",
+    "expected_topics": ["artisanat", "Fès", "Marrakech", "Essaouira", "Tiznit", "Safi", "argan", "tapis", "zellige"]
+  },
+  {
+    "id": "C06",
+    "question": "Comment se rendre de Casablanca jusqu'à Merzouga (porte du Sahara), quelles sont les options de transport et les durées approximatives ?",
+    "type": "complex",
+    "reference": "Plusieurs options : (1) Avion Casablanca-Errachidia + 2h taxi vers Merzouga (le plus rapide). (2) Train Casablanca-Marrakech (2h45 LGV ou train classique), puis bus CTM/Supratours ou voiture de location Marrakech-Merzouga (9-10h via col du Tichka, Aït Ben Haddou, Ouarzazate, gorges du Dadès, Erfoud) — généralement étalé sur 2 jours avec étape à Dadès ou Ouarzazate. (3) Voiture personnelle directe Casa-Merzouga (~12-13h, peu recommandé). La route N9 puis N10 traverse paysages spectaculaires de l'Atlas et de la 'Route des Mille Kasbahs'.",
+    "expected_topics": ["Casablanca", "Merzouga", "transport", "train", "bus", "Atlas", "Aït Ben Haddou", "Ouarzazate"]
+  },
+  {
+    "id": "C07",
+    "question": "Quels sont les principaux défis du tourisme durable dans le Haut Atlas et dans le sud marocain (Sahara) ?",
+    "type": "complex",
+    "reference": "Défis : surfréquentation de certains sites (Imlil, Toubkal en été), déchets sur les sentiers, pression sur l'eau dans une région déjà aride, disparition des traditions berbères sous l'influence du tourisme de masse. Bonnes pratiques : engager des guides locaux agréés, privilégier hébergements gérés par familles berbères, acheter directement aux coopératives, ramener tous ses déchets, respecter les coutumes vestimentaires, ne pas distribuer de cadeaux aux enfants (préférer dons aux écoles). Pour le Sahara : vérifier l'assurance des agences 4x4, préférer agences agréées ONMT et hébergements éco-responsables, ne pas perturber la faune (lac Dayet Srji et flamants roses).",
+    "expected_topics": ["tourisme durable", "Atlas", "Sahara", "Toubkal", "coopératives", "éco-responsable", "Berbères"]
+  },
+  {
+    "id": "C08",
+    "question": "Quelles sont les spécialités culinaires régionales du Maroc et où peut-on les déguster idéalement ?",
+    "type": "complex",
+    "reference": "Nord (Tanger/Tétouan/Chefchaouen) : bissara (soupe de fèves au petit-déjeuner à Chaouen), pinchitos, tortilla, calentita (héritage espagnol et juif séfarade). Fès : pastilla au pigeon (la plus authentique), tajine d'agneau aux pruneaux et amandes, sefenj. Marrakech : tangia (amphore d'agneau confit, plat unique à la ville), mrouzia (agneau au miel). Côte atlantique (Essaouira, Casablanca) : poisson grillé du port, pastilla au poisson, tajine de poisson, amlou (pâte d'amande et huile d'argan). Sud/Sahara : méchoui sous la tente, pain berbère cuit dans le sable, dattes Mejhoul d'Erfoud, thé saharien. Haut Atlas : tajine berbère aux 7 légumes, couscous à l'huile d'olive et beurre rance, tagoula.",
+    "expected_topics": ["gastronomie", "tajine", "pastilla", "tangia", "bissara", "amlou", "méchoui", "spécialités régionales"]
+  },
+  {
+    "id": "C09",
+    "question": "Pour un voyageur disposant d'une semaine, comparez les avantages et inconvénients d'un séjour balnéaire à Agadir, d'un trek dans le Haut Atlas et d'un circuit dans le désert de Merzouga.",
+    "type": "complex",
+    "reference": "Agadir (balnéaire) : avantages — climat doux toute l'année (300 jours de soleil), baie de 10 km sécurisée, hôtels all-inclusive abordables, idéal famille, vols charters européens directs, surf à Taghazout. Inconvénients : moins d'authenticité (ville reconstruite après séisme 1960), peu de patrimoine historique. Haut Atlas (trek) : avantages — paysages spectaculaires, ascension Toubkal (4167m), villages berbères authentiques, expérience physique forte. Inconvénients : guide obligatoire depuis 2018 pour Toubkal, exigeant physiquement, accessible surtout juin-octobre. Merzouga (désert) : avantages — bivouac, dunes Erg Chebbi, ciel étoilé exceptionnel, dépaysement total, route des Mille Kasbahs. Inconvénients : long trajet depuis Marrakech (9-10h), inconfort possible, déconseillé en été (40-45°C).",
+    "expected_topics": ["Agadir", "Atlas", "Merzouga", "balnéaire", "trek", "désert", "Toubkal", "comparaison"]
+  },
+  {
+    "id": "C10",
+    "question": "Quels grands festivals musicaux jalonnent l'été au Maroc et quelles villes les accueillent ?",
+    "type": "complex",
+    "reference": "Juin : Festival Mawazine - Rythmes du Monde à Rabat (2,5 millions de spectateurs, têtes d'affiche internationales), Festival Gnaoua et Musiques du Monde à Essaouira (450 000 spectateurs, concerts gratuits, musique gnaoua patrimoine UNESCO 2019), Festival des Musiques Sacrées du Monde à Fès (musiques spirituelles toutes traditions), Marrakech du Rire (humour francophone par Jamel Debbouze). Juillet : Timitar à Agadir (musique amazighe), Festival international d'Asilah (peintures murales + musique). Août : Festival des Cerises à Sefrou (UNESCO 2012). Septembre : Tanjazz à Tanger, L'Boulevard à Casablanca, Jazz au Chellah à Rabat, Festival International du Film de Marrakech préparé. La majorité de ces festivals sont gratuits ou à prix accessibles.",
+    "expected_topics": ["festivals", "Mawazine", "Gnaoua", "Musiques Sacrées Fès", "Timitar", "été", "musique"]
+  }
+]

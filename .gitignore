@@ -1,0 +1,37 @@
+# Python-generated files
+__pycache__/
+*.py[oc]
+build/
+dist/
+wheels/
+*.egg-info
+
+# Virtual environments
+.venv/
+
+# Secrets
+.env
+.env.*
+!.env.example
+
+# Vector store persistence
+chroma_db/
+
+# Local data (PDFs are bulky; keep out of git unless small)
+data/corpus/*.pdf
+data/corpus/*.txt
+data/corpus/*.md
+!data/corpus/README.md
+
+# Eval / artifact outputs
+eval/results/
+graph.png
+graph.mmd
+
+# IDE / OS
+.idea/
+.vscode/
+.DS_Store
+
+# LangGraph / LangSmith local state
+.langgraph_api/
