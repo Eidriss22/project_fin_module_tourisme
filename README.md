@@ -67,7 +67,6 @@ Le notebook enchaîne : initialisation → diagramme Mermaid → état du corpus
 uv run python -m src.graph --draw          # rend artifacts/graph.png
 uv run python -m src.graph --ask "..."     # invocation unique
 uv run python -m src.evaluate              # 20 questions → eval/results/results.csv
-uv run python -m report.build_report       # PDF 4 pages → report/rapport.pdf
 ```
 
 ### LangGraph Studio
@@ -91,7 +90,7 @@ Ouvre `https://smith.langchain.com/studio/?baseUrl=http://127.0.0.1:2024`. Si Ch
 
 ## Rapport et démo
 
-- **Rapport PDF 4 pages** : `report/rapport.pdf` (générable via `uv run python -m report.build_report`). Sources éditables dans `report/build_report.py`.
+- **Rapport PDF 4 pages** : `report/rapport.pdf`.
 - **Vidéo de démonstration** : 2 min, scénarisée pour le notebook (voir `report/` ou demander le script).
 
 ## Project layout
@@ -108,7 +107,6 @@ Ouvre `https://smith.langchain.com/studio/?baseUrl=http://127.0.0.1:2024`. Si Ch
 ├── artifacts/
 │   └── graph.png               # diagramme Mermaid du graphe
 ├── report/
-│   ├── build_report.py         # générateur PDF (reportlab)
 │   └── rapport.pdf             # rapport individuel (4 pages)
 ├── src/
 │   ├── config.py               # env, providers, paths, hyperparamètres
