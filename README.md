@@ -1,108 +1,144 @@
 # Agentic RAG — Tourisme Marocain
 
-Projet de fin de module (Master IIBDCC). Système RAG agentique construit avec
-**LangGraph** (sans `create_agent`), propulsé par **Groq** (`llama-3.3-70b-versatile`),
-embeddings **HuggingFace** multilingues locaux, vector store **Chroma**, et
-recherche web **Tavily** en fallback.
+Projet de fin de module (Master IIBDCC). Système **Agentic RAG** construit avec **LangGraph** (sans `create_agent`), architecture **CRAG (Corrective RAG)**, propulsé par **Ollama** en local (`llama3.2:latest`) ou **Groq** (`llama-3.3-70b-versatile`) en option. Embeddings **HuggingFace** multilingues, vector store **Chroma** persistant, recherche web **Tavily** en fallback.
+
+> Encadrante : Prof. RETAL Sara — Master IIBDCC (SMA & IAD)
 
 ## Architecture (CRAG-flavored)
 
 ```
-              ┌──────────────┐
-START ──────▶ │ route_question│──┐
-              └──────────────┘  │
-                       │        │
-        ┌──────────────┼────────┼────────────┐
-        ▼              ▼        ▼            ▼
-    retrieve       websearch  generate    (direct)
-        │              │        ▲
-        ▼              │        │
-  grade_documents      │        │
-        │              │        │
-        ▼              │        │
-   decide_next ────────┘        │
-   │   │   │                    │
-   │   │   └──▶ rewrite_query ──┐
-   │   │           │            │
-   │   └──▶ generate            │
-   │           ▲                │
-   │           └────────────────┘
-   ▼
-hallucination_check ──▶ {END | rewrite_query (capped)}
+START → route_question → {retrieve | websearch | generate}
+retrieve → grade_documents → decide_next
+decide_next → {generate | rewrite_query | websearch}
+rewrite_query → retrieve   (boucle bornée par MAX_ITERATIONS = 3)
+websearch → generate
+generate → hallucination_check → {END | rewrite_query}   (borné par HALLUCINATION_MAX_RETRIES = 2)
 ```
 
-- **Iteration cap**: `state['iterations']` is bumped on every rewrite and
-  bounded by `MAX_ITERATIONS = 3` (see `src/config.py`).
-- **Hallucination cap**: `state['halluc_retries']` is bounded by
-  `HALLUCINATION_MAX_RETRIES = 2`.
-- **Checkpointing**: `InMemorySaver` (thread-id support for replay / Studio).
+- **Tool-calling manuel** : pas de `create_agent`. Les nœuds `retrieve` et `websearch` invoquent directement les `@tool` de `src/tools.py`.
+- **Décisions agentiques structurées** : router, grader et hallucination-check renvoient du JSON validé via `llm.with_structured_output(PydanticModel)`.
+- **Deux graphes compilés** exposés depuis `src/graph.py` :
+  - `graph` — sans checkpointer, consommé par `langgraph dev` / Studio.
+  - `graph_with_memory` — avec `InMemorySaver`, utilisé par `evaluate.py`, le notebook et `run_once()`.
+
+Rendu Mermaid : `artifacts/graph.png` (généré par le notebook §2 ou `python -m src.graph --draw`).
 
 ## Setup
 
 ```bash
-# 1. Install (uv recommended; pip works too)
-uv sync                       # or: pip install -e .
+# 1. Dépendances
+uv sync
 
-# 2. Configure secrets — .env must contain GROQ_API_KEY and TAVILY_API_KEY
-#    (LANGSMITH_API_KEY is optional but enables tracing.)
+# 2. Secrets — créer .env à la racine
+#    GROQ_API_KEY=...          # requis uniquement si LLM_PROVIDER=groq
+#    TAVILY_API_KEY=...        # requis pour la fallback web
+#    LANGSMITH_API_KEY=...     # optionnel, active le tracing
 
-# 3. Drop tourism documents into data/corpus/  (see data/corpus/README.md)
+# 3. Modèle local Ollama (provider par défaut)
+ollama pull llama3.2:latest
 
-# 4. Build the vector index
-python -m src.ingest --reset
+# 4. Construire l'index vectoriel à partir de data/corpus/
+uv run python -m src.ingest --reset
 
-# 5. (Optional) Render the graph diagram
-python -m src.graph --draw       # writes artifacts/graph.png (or .mmd)
-
-# 6. Ask a question
-python -m src.graph --ask "Quels sont les sites incontournables a Chefchaouen ?"
+# 5. Tester une question
+uv run python -m src.graph --ask "Quels sont les sites UNESCO du Maroc ?"
 ```
 
-## LangGraph Studio (optional but nice)
+### Basculer Ollama ↔ Groq
 
 ```bash
-uv run langgraph dev          # opens the UI; reads ./langgraph.json
+LLM_PROVIDER=groq   uv run python -m src.graph --ask "..."   # cloud, plus rapide, quota TPD
+LLM_PROVIDER=ollama uv run python -m src.graph --ask "..."   # local, gratuit (défaut)
 ```
 
-## Evaluation
+## Utilisation
 
-1. Edit `eval/questions.json` to add 10 simple + 10 complex questions.
-2. Run:
-   ```bash
-   python -m src.evaluate
-   ```
-3. Results land in `eval/results/results.csv` plus a console summary.
+### Notebook de démonstration (entrée principale)
+
+```bash
+uv run jupyter notebook notebooks/demo.ipynb
+```
+
+Le notebook enchaîne : initialisation → diagramme Mermaid → état du corpus → requête simple → requête complexe → évaluation 20 questions → tableaux et graphiques.
+
+### CLI
+
+```bash
+uv run python -m src.graph --draw          # rend artifacts/graph.png
+uv run python -m src.graph --ask "..."     # invocation unique
+uv run python -m src.evaluate              # 20 questions → eval/results/results.csv
+uv run python -m report.build_report       # PDF 4 pages → report/rapport.pdf
+```
+
+### LangGraph Studio
+
+```bash
+uv run langgraph dev
+```
+
+Ouvre `https://smith.langchain.com/studio/?baseUrl=http://127.0.0.1:2024`. Si Chrome bloque (mixed-content HTTPS → HTTP), autorise *Insecure content* sur smith.langchain.com, ou utilise `--tunnel` + ajoute `*.trycloudflare.com` aux domaines autorisés.
+
+## Évaluation
+
+20 questions versionnées dans `eval/questions.json` (10 simples + 10 complexes, toutes ancrées dans le corpus). Pour chacune, on capture latence, itérations, sources retrouvées, usage de la fallback web et retries hallucination → `eval/results/results.csv` + agrégats dans `summary_by_type.csv`.
+
+| Type | N | Médiane latence | Itérations moy. | Web search | Hallu. retries |
+|---|---|---|---|---|---|
+| simple | 10 | ~18 s | 0.6 | 1/10 | 1.0 |
+| complex | 10 | ~35 s | 0.5 | 0/10 | 0.6 |
+
+(Valeurs typiques sur Ollama `llama3.2:3B` ; varient selon la machine.)
+
+## Rapport et démo
+
+- **Rapport PDF 4 pages** : `report/rapport.pdf` (générable via `uv run python -m report.build_report`). Sources éditables dans `report/build_report.py`.
+- **Vidéo de démonstration** : 2 min, scénarisée pour le notebook (voir `report/` ou demander le script).
 
 ## Project layout
 
 ```
 .
-├── data/corpus/         # drop PDFs / TXT / MD here
-├── chroma_db/           # persistent vector store (gitignored)
+├── data/corpus/                # documents ingérés (régions, culture, pratique, ...)
+├── chroma_db/                  # vector store persistant (gitignored)
+├── notebooks/
+│   └── demo.ipynb              # entrée démo + éval principale
 ├── eval/
-│   ├── questions.json   # 20 evaluation questions
-│   └── results/         # CSV outputs
-├── artifacts/           # graph.png / graph.mmd
+│   ├── questions.json          # 20 questions de référence
+│   └── results/                # results.csv, summary_by_type.csv, latency_per_question.png
+├── artifacts/
+│   └── graph.png               # diagramme Mermaid du graphe
+├── report/
+│   ├── build_report.py         # générateur PDF (reportlab)
+│   └── rapport.pdf             # rapport individuel (4 pages)
 ├── src/
-│   ├── config.py        # env, paths, hyperparameters
-│   ├── llms.py          # ChatGroq + HuggingFace embeddings factories
-│   ├── ingest.py        # PDF → chunks → Chroma
-│   ├── tools.py         # @tool retriever + Tavily web search
-│   ├── state.py         # AgentState TypedDict
-│   ├── nodes.py         # all node functions + structured-output schemas
-│   ├── graph.py         # StateGraph builder + module-level `graph`
-│   └── evaluate.py      # eval harness
-├── langgraph.json       # LangGraph Studio config
+│   ├── config.py               # env, providers, paths, hyperparamètres
+│   ├── llms.py                 # factories Ollama/Groq + embeddings HF
+│   ├── ingest.py               # chargement + chunking + persistance Chroma
+│   ├── tools.py                # @tool retriever + @tool web search
+│   ├── state.py                # AgentState (TypedDict)
+│   ├── nodes.py                # 8 nœuds + schémas Pydantic
+│   ├── graph.py                # StateGraph + graph / graph_with_memory
+│   └── evaluate.py             # harnais CLI (doublon du notebook §6)
+├── langgraph.json              # config LangGraph Studio
 └── pyproject.toml
 ```
 
-## Design choices (for the report)
+## Choix techniques (résumé pour le rapport)
 
-| Choix                                   | Justification                                                                                |
-|-----------------------------------------|----------------------------------------------------------------------------------------------|
-| `llama-3.3-70b-versatile`               | Meilleur modèle Groq pour reasoning + tool use, 128k contexte, latence < 1s/token.           |
-| `paraphrase-multilingual-MiniLM-L12-v2` | Petit (~120MB), CPU-friendly, multilingue FR/EN/AR (cohérent avec un corpus marocain).       |
-| Chroma persistant                       | Léger, sans serveur, parfait pour un projet académique.                                      |
-| LangGraph (sans `create_agent`)         | Topologie explicite → contrôle fin du flux agentique (exigé par le sujet).                   |
-| Sorties structurées Pydantic            | Décisions de routage / grading / hallucination déterministes (JSON validé).                  |
-| InMemorySaver                           | Permet le rewind / replay dans LangGraph Studio sans dépendance externe.                     |
+| Choix | Justification |
+|---|---|
+| **Ollama `llama3.2:latest`** (défaut) | Modèle local 3B, pas de quota API, reproductibilité hors-ligne. |
+| **Groq `llama-3.3-70b-versatile`** (option) | Latence faible et qualité supérieure si quota TPD disponible. |
+| **`paraphrase-multilingual-MiniLM-L12-v2`** | 384 dims, multilingue FR/EN/AR, ~120 Mo, CPU-friendly. |
+| **Chroma persistant** | Léger, sans serveur, parfait pour un projet académique. |
+| **LangGraph (sans `create_agent`)** | Topologie explicite, contrôle fin du flux agentique (exigé par l'énoncé). |
+| **Sorties structurées Pydantic** | Décisions router/grader/hallucination déterministes (JSON validé). |
+| **CRAG** | Boucle de correction (grade → rewrite → retrieve) + fallback web pour les cas hors-corpus + vérification d'ancrage final. |
+| **InMemorySaver (variante `_with_memory`)** | `thread_id` ⇒ mémoire à court terme par fil ; tenu séparément du graphe Studio (l'API LangGraph rejette les checkpointers custom). |
+
+## Troubleshooting
+
+- **`uv run langgraph dev` ne démarre pas** : vérifie qu'aucun checkpointer custom n'est compilé dans le `graph` exposé par `langgraph.json` (la LangGraph API les rejette). Le `graph` de ce projet est compilé sans checkpointer ; utilise `graph_with_memory` côté Python.
+- **Studio "Failed to fetch"** : navigateur bloque le mixed-content (HTTPS → HTTP). Autorise insecure content (Chrome) ou utilise `--tunnel`.
+- **Groq 429 TPD limit** : passe à Ollama (`LLM_PROVIDER=ollama`) ou attends le reset journalier UTC.
+- **Embeddings hangs au premier run** : Hugging Face télécharge ~120 Mo une fois ; les runs suivants démarrent en <10 s.
